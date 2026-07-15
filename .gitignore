@@ -4,7 +4,7 @@ client/node_modules/
 server/node_modules/
 
 # Local databases / mock data
-server/data/db.json
+data/
 server/data/
 
 # Environment files
