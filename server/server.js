@@ -71,11 +71,13 @@ const seedInitialData = async () => {
 };
 seedInitialData();
 
-// Serve client assets in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/client/dist')));
+// Serve client assets in production or if build dist exists
+const clientDistPath = path.join(__dirname, 'client', 'dist');
+if (process.env.NODE_ENV === 'production' || fs.existsSync(clientDistPath)) {
+  console.log('📦 Serving production frontend static bundle from:', clientDistPath);
+  app.use(express.static(clientDistPath));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+    res.sendFile(path.resolve(clientDistPath, 'index.html'));
   });
 } else {
   app.get('/', (req, res) => {
